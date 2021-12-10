@@ -58,7 +58,7 @@ class DB {
       // id, title, salary FROM role TABLE AND department name FROM department TABLE
       // YOU NEED TO USE LEFT JOIN TO JOIN role and department TABLES
       // TODO: YOUR CODE HERE
-
+    "SELECT role.id, role.title, role.salary, department.name FROM role left JOIN department ON role.department_id=department.id"      
     );
   }
 
@@ -66,7 +66,7 @@ class DB {
   createRole(role) {
     return this.connection.query(
       // TODO: YOUR CODE HERE
-
+      "INSERT INTO role SET ?", role
       );
   }
 
@@ -85,6 +85,7 @@ class DB {
   createDepartment(department) {
     return this.connection.query(
       // TODO: YOUR CODE HERE
+      "INSERT INTO department SET ?", department
     );
   }
 
