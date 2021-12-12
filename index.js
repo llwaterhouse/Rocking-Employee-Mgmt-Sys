@@ -1,13 +1,14 @@
 const { prompt } = require("inquirer");
 const logo = require("asciiart-logo");
 const db = require("./db");
+const chalk = require("chalk");
 require("console.table");
 
 init();
 
 // Display logo text, load main prompts
 function init() {
-  const logoText = logo({ name: "Employee Manager" }).render();
+  const logoText = logo({ name: "Linda's Employee Manager" }).render();
 
   console.log(logoText);
 
@@ -171,10 +172,11 @@ async function updateEmployeeRole() {
 
   const roles = await db.findAllRoles();
 
-  const roleChoices = roles.map(({ id, title }) => ({
+  const roleChoices = roles.map(({ id, role_title }) => ({
     value: id,
-    name: title
+    name: role_title
   }));
+
 
   const { roleId } = await prompt([
     {
@@ -187,7 +189,7 @@ async function updateEmployeeRole() {
 
   await db.updateEmployeeRole(employeeId, roleId);
 
-  console.log("Updated employee's role");
+  console.log(chalk.magenta("Updated employee's role"));
 
   loadMainPrompts();
 }
@@ -228,7 +230,7 @@ async function addRole() {
 
   await db.createRole(role);
 
-  console.log(`Added ${role.title} to the database`);
+  console.log(chalk.magenta(`Added ${role.title} to the database`));
 
   loadMainPrompts();
 }
@@ -252,7 +254,7 @@ async function addDepartment() {
 
   await db.createDepartment(department);
 
-  console.log(`Added ${department.name} to the database`);
+  console.log(chalk.magenta(`Added ${department.name} to the database`));
 
   loadMainPrompts();
 }
@@ -272,8 +274,8 @@ async function addEmployee() {
     },
   ]);
 
-  const roleChoices = roles.map(({ id, title }) => ({
-    name: title,
+  const roleChoices = roles.map(({ id, role_title }) => ({
+    name: role_title,
     value: id,
   }));
 
@@ -292,7 +294,7 @@ async function addEmployee() {
     // THIS OBJECT FOR EACH MANAGER WILL RETURN TO MAP() TO CONSTRUCT AN ARRAY TO BE RETURNED AND BE STORED TO managerChoices.
     // TODO: YOUR CODE HERE - DONE
     value: id,
-    name: first_name+last_name
+    name: first_name+" " +last_name
   }));
   managerChoices.unshift({ name: "None", value: null });
 
@@ -307,9 +309,9 @@ async function addEmployee() {
 
   await db.createEmployee(employee);
 
-  console.log(
+  console.log(chalk.magenta(
     `Added ${employee.first_name} ${employee.last_name} to the database`
-  );
+  ));
 
   loadMainPrompts();
 }
