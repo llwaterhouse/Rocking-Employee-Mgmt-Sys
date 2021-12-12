@@ -8,7 +8,7 @@
 
 * When starting the application, the user is presented with a list of options that are clear and easy to follow.
 
-* 
+* The changes that the user makes are reflected in the database.
 
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -70,7 +70,7 @@ and follow the prompts
 ## Deliverables
 
 ### Walkthrough Video Link
-[Note Taker app](
+[Rocking Employee Management app](https://watch.screencastify.com/v/DkkAK96SiyKpON5ybx7k)
 
 ### Repository
 
