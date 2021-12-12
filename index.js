@@ -8,7 +8,7 @@ init();
 
 // Display logo text, load main prompts
 function init() {
-  const logoText = logo({ name: "Linda's Employee Manager" }).render();
+  const logoText = logo({ name: "Rocking Employee Manager" }).render();
 
   console.log(logoText);
 
@@ -31,10 +31,10 @@ function loadMainPrompts() {
           value: "VIEW_EMPLOYEES_BY_DEPARTMENT",
         },
         // Bonus
-        // {
-        //   name: "View All Employees By Manager",
-        //   value: "VIEW_EMPLOYEES_BY_MANAGER"
-        // },
+        {
+          name: "View All Employees By Manager",
+          value: "VIEW_EMPLOYEES_BY_MANAGER"
+        },
         {
           name: "Add Employee",
           value: "ADD_EMPLOYEE",
@@ -49,10 +49,10 @@ function loadMainPrompts() {
           value: "UPDATE_EMPLOYEE_ROLE",
         },
         // Bonus
-        // {
-        //   name: "Update Employee Manager",
-        //   value: "UPDATE_EMPLOYEE_MANAGER"
-        // },
+        {
+          name: "Update Employee Manager",
+          value: "UPDATE_EMPLOYEE_MANAGER"
+        },
         {
           name: "View All Roles",
           value: "VIEW_ROLES",
@@ -92,10 +92,14 @@ function loadMainPrompts() {
         return viewEmployees();
       case "VIEW_EMPLOYEES_BY_DEPARTMENT":
         return viewEmployeesByDepartment();
+      case "VIEW_EMPLOYEES_BY_MANAGER":
+        return viewEmployeesByManager();
       case "ADD_EMPLOYEE":
         return addEmployee();
       case "UPDATE_EMPLOYEE_ROLE":
         return updateEmployeeRole();
+      case "UPDATE_EMPLOYEE_MANAGER":
+        return updateEmployeeManager();
       case "VIEW_DEPARTMENTS":
         return viewDepartments();
       case "ADD_DEPARTMENT":
@@ -148,6 +152,33 @@ async function viewEmployeesByDepartment() {
   loadMainPrompts();
 }
 
+async function viewEmployeesByManager() {
+  const managers = await db.findAllManagers();
+
+  const managerChoices = managers.map(({ id, name }) => ({
+    // CREATE TWO PROPERTIES name AND value FOR THIS OBJECT. THE PROPERTY name SHOULD CONTAIN THE NAME OF THE Manager.
+    // THE PROPERTY value SHOULD CONTAIN id.
+       name,
+       value: id
+
+  }));
+
+  const { managerId } = await prompt([
+    {
+      type: "list",
+      name: "managerId",
+      message: "Which manager would you like to see employees for?",
+      choices: managerChoices,
+    },
+  ]);
+
+  const employees = await db.findAllEmployeesByManager(managerId);
+
+  console.log("\n");
+  console.table(employees);
+
+  loadMainPrompts();
+}
 async function updateEmployeeRole() {
   const employees = await db.findAllEmployees();
 
@@ -190,6 +221,52 @@ async function updateEmployeeRole() {
   await db.updateEmployeeRole(employeeId, roleId);
 
   console.log(chalk.magenta("Updated employee's role"));
+
+  loadMainPrompts();
+}
+
+async function updateEmployeeManager() {
+  const employees = await db.findAllEmployees();
+
+  const employeeChoices = employees.map(({ id, Emp_First, Emp_Last}) => ({
+    // CREATE TWO PROPERTIES name AMD value FOR THIS OBJECT. THE PROPERTY name SHOULD CONTAIN THE CONCATENATION OF THE FIRST HAME AND THE LAST NAME.
+    // THE PROPERTY value SHOULD CONTAIN id.
+    // THIS OBJECT FOR EACH MANAGER WILL RETURN TO MAP() TO CONSTRUCT AN ARRAY TO BE RETURNED AND BE STORED TO managerChoices.
+    // TODO: YOUR CODE
+      value: id,
+      name : Emp_First + ' ' + Emp_Last
+    
+  }));
+
+  const { employeeId } = await prompt([
+    {
+      type: "list",
+      name: "employeeId",
+      message: "Which employee's manager do you want to update?",
+      choices: employeeChoices,
+    },
+  ]);
+
+  const managers = await db.findAllPossibleManagers(employeeId);
+
+  const managerChoices = managers.map(({ id, first_name, last_name }) => ({
+    value: id,
+    name: first_name + ' ' +last_name
+  }));
+
+
+  const { managerId } = await prompt([
+    {
+      type: "list",
+      name: "managerId",
+      message: "Which manager do you want to assign the selected employee?",
+      choices: managerChoices,
+    },
+  ]);
+
+  await db.updateEmployeeManager(employeeId, managerId);
+
+  console.log(chalk.magenta("Updated employee's Manager"));
 
   loadMainPrompts();
 }

@@ -14,15 +14,17 @@ class DB {
       
       // YOUR NEED TO USE LEFT JOINS TO JOIN THREE TABLES
       // TODO: YOUR CODE HERE - DONE
-      "SELECT employee.id, employee.first_name, employee.last_name, employee.manager_id,\
-      department.name, \
-     role.title,  role.salary FROM employee \
-      LEFT JOIN role \
-      ON employee.role_id = role.id\
-      LEFT JOIN department \
-      ON role.department_id = department.id" 
+    // 
+    // "SELECT \
+    //   e.id, \
+    //   e.first_name,\
+    //   e.manager_id,\
+    //   m.first_name AS ManagerName \
+    //  FROM employee e \
+    //  JOIN employee m \
+    //  ON e.manager_id = m.id"
 
-    //   "SELECT e.id, e.first_name + ' ' + e.last_name employee,\
+    //   "SELECT e.id, e.first_name + ' ' + e.last_name employees,\
     //    m.first_name + " " + m.last_name manager,\
     //   department.name, \
     //  role.title,  role.salary \
@@ -32,6 +34,25 @@ class DB {
     //   ON e.role_id = role.id\
     //   LEFT JOIN department \
     //   ON role.department_id = department.id" 
+          "SELECT e.id, e.first_name Emp_First,e.last_name Emp_Last,\
+          m.id Mgr_ID, m.first_name Mgr_First,m.last_name Mgr_Last,\
+         department.name AS DeptName, \
+        role.title,  role.salary \
+        FROM employee e\
+        LEFT JOIN employee m ON m.id = e.manager_id \
+         LEFT JOIN role \
+         ON e.role_id = role.id\
+         LEFT JOIN department \
+         ON role.department_id = department.id" 
+    );
+  }
+
+  // Find all managers
+  findAllManagers() {
+    return this.connection.query(
+      "SELECT DISTINCT m.id, CONCAT(m.first_name, ' ', m.last_name) name \
+      FROM employee m\
+      JOIN employee e ON e.manager_id = m.id",
     );
   }
 

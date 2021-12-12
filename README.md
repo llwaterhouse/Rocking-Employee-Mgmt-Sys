@@ -8,8 +8,15 @@
 
 * When starting the application, the user is presented with a list of options that are clear and easy to follow.
 
-* The changes that the user makes are reflected in the database.
+* The changes that the user requests are reflected in the database.
 
+* The Bonus commands of "View Employees By Manager" and "Update Employee Manager were implemented.
+
+* The chalk module was used to change the console.log color to make the text more apparent.
+
+* I used a SELF JOIN to list the manager name in addition to the manager id in viewAllEmployees(), and in findAllManagers()
+
+* I used the DISTINCT keyword to remove duplicates from findAllManagers().
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
@@ -69,8 +76,13 @@ and follow the prompts
 
 ## Deliverables
 
-### Walkthrough Video Link
+### Walkthrough Video Links
+
+**Required Commands**
 [Rocking Employee Management app](https://watch.screencastify.com/v/DkkAK96SiyKpON5ybx7k)
+
+**Bonus Commands - ViewAllEmployeesByManager, UpdateEmployeeManager**
+[Manager Bonus Commands](https://watch.screencastify.com/v/YDKHTxTGdMZ2uYkWwvsR)
 
 ### Repository
 
