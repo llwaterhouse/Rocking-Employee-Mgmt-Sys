@@ -21,6 +21,17 @@ class DB {
       ON employee.role_id = role.id\
       LEFT JOIN department \
       ON role.department_id = department.id" 
+
+    //   "SELECT e.id, e.first_name + ' ' + e.last_name employee,\
+    //    m.first_name + " " + m.last_name manager,\
+    //   department.name, \
+    //  role.title,  role.salary \
+    //  FROM employee e\
+    //  INNER JOIN employee m ON m.id = e.manager_id \
+    //   LEFT JOIN role \
+    //   ON e.role_id = role.id\
+    //   LEFT JOIN department \
+    //   ON role.department_id = department.id" 
     );
   }
 
